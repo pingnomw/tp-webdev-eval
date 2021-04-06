@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 
 const limit = 100
 var maxPage
@@ -75,19 +76,35 @@ function PokeList(){
 		setOffset(lastPageOffset())
 	}
 
+	// instantly go to a specified page
+	function pageJump(num){
+		if (num > 0 && num <= maxPage){
+			setPageNum(num)
+			setOffset((num-1) * limit)
+			setStatus(0)
+		}
+	}
+
 	let displayList = list.map(poke =>
-		<div className="capitalize">
+		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.name}>
 			{poke.name} ({poke.count})
-		</div>
+			{/*<Link to="/detail/:id">{poke.name} ({poke.count})</Link>*/}
+		</Link>
 	);
 
 	// page navigation buttons + position indicator
 	let pageButtons = (
-		<div>
+		<div className="pgnav">
+			<div className="pgnum">Page {pageNum}/{maxPage} (entries {offset+1} - {pageNum == maxPage ? pokeCount : offset+limit} out of {pokeCount})</div>
 			<button name="first" disabled={offset == 0} onClick={() => {firstPage()}}>First</button>
+			<span className="sep4"></span>
 			<button name="prev" disabled={offset == 0} onClick={() => {prevPage()}}>Prev</button>
-				{pageNum}/{maxPage} ({offset+1} - {pageNum == maxPage ? pokeCount : offset+limit})
+			<span className="sep10"></span>
+			<input name="pagejump" type="number" defaultValue={pageNum} max={maxPage} min={1}></input>
+			<button name="pagejumpgo">Go</button>
+			<span className="sep10"></span>
 			<button name="next" disabled={pageNum >= maxPage} onClick={() => {nextPage()}}>Next</button>
+			<span className="sep4"></span>
 			<button name="last" disabled={pageNum >= maxPage} onClick={() => {lastPage()}}>Last</button>		
 		</div>
 	)
@@ -100,7 +117,7 @@ function PokeList(){
 			</div>
 
 			{status == 0 ?
-				<div>Loading page {pageNum}...</div>
+				<div className="loading">Loading page {pageNum}...</div>
 			: null }
 
 			{status == 200 ?

@@ -1,16 +1,24 @@
 import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 
-class Navbar extends React.Component{
-	render() {
-		return (
-			<div className="navbar">
+
+function Navbar(){
+
+	var inDetail = useLocation().pathname.startsWith("/detail")
+
+	return (
+		<div className="navbar">
+			{inDetail
+			?
+			<button className="navitem" onClick={() => window.history.back()}>Back</button>
+			:
+			<div>
 				<NavLink to="/list" className="navitem" activeClassName="nav-active">All Pokémon List</NavLink>
-				<NavLink to="/detail" className="navitem" activeClassName="nav-active">Pokémon Details</NavLink>
 				<NavLink to="/my" className="navitem" activeClassName="nav-active">My Owned Pokémon</NavLink>
 			</div>
-		)
-	}
+			}
+		</div>
+	)
 }
 
 export default Navbar;
