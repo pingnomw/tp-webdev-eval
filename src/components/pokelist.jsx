@@ -123,7 +123,7 @@ function PokeList(){
 			{status == 200 ?
 				<div>
 					{pageButtons}
-					<div>
+					<div className="list-container">
 						{displayList}
 					</div>
 					{pageButtons}

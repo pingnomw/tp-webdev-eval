@@ -45,6 +45,8 @@ body{
 .navbar{
   text-align: left;
   background-color: #27477C;
+  position: sticky;
+  top: 0;
 }
 
 .navbar a{
@@ -55,9 +57,9 @@ body{
 .navitem{
   text-transform: uppercase;
   font-size: 14pt;
-  letter-spacing: 1px;
+  letter-spacing: 1pt;
   display: inline-block;
-  padding: 6px 10px;
+  padding: 4pt 8pt;
   border: none;
   background-color: inherit;
   color: white;
@@ -81,12 +83,22 @@ body{
   display: none;
 }
 
+.desktop-only{
+  display: initial;
+}
+
 a.nav-active{
   color: black;
 }
 
 .title{
-  font-size: 20pt;
+  font-size: 26pt;
+}
+
+.subtitle{
+  font-size: 12pt;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
 }
 
 .capitalize{
@@ -105,8 +117,21 @@ a.nav-active{
   display: block;
 }
 
+.nodisp{
+  display: none;
+}
+
 .v-align-mid{
   vertical-align: middle;
+}
+
+.list-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
 }
 
 .list-item{
@@ -115,9 +140,12 @@ a.nav-active{
   /*border: 1px solid black;*/
   display: inline-block;
   text-align: left;
+  vertical-align: top;
+  flex-grow: 1;
+  flex-basis: 45%;
   font-size: 20pt;
-  padding: 6px;
-  margin: 3px;
+  padding: 6pt;
+  margin: 3pt;
   background-color: white;
 }
 
@@ -145,32 +173,52 @@ a.nav-active{
 }
 
 .detail-header{
-  width: 90vw;
-  height: 68pt;
+  min-height: 96px;
   text-align: left;
-  padding: 6px;
-  margin: 3px;
+  padding: 6pt;
+  margin: 6pt;
   background-color: white;
+}
+
+.detail-split-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+
+.detail-content{
+  /*width: 45vw;*/
+  text-align: left;
+  padding: 6pt;
+  margin: 6pt;
+  background-color: white;
+  display: inline-block;
+  vertical-align: top;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 .sep4{
   display: inline-block;
-  width: 4px;
+  width: 4pt;
 }
 
 .sep6{
   display: inline-block;
-  width: 6px;
+  width: 6pt;
 }
 
 .sep8{
   display: inline-block;
-  width: 8px;
+  width: 8pt;
 }
 
 .sep10{
   display: inline-block;
-  width: 10px;
+  width: 10pt;
 }
 
 /* for mobile devices */
@@ -183,14 +231,29 @@ a.nav-active{
     display: block;
     /*width: 100vw;*/
     text-align: center;
-    padding: 10px 0px;
+    padding: 10pt 6pt;
   }
 
   .nav-active{
     font-weight: bold;
   }
 
+  .list-container{
+    display: block;
+    text-align: center;
+  }
+
   .list-item{
-    width: 90vw;
+    display: block;
+    width: initial;
+  }
+
+  .detail-split-container{
+    display: block;
+  }
+
+  .detail-content{
+    display: block;
+    width: initial;
   }
 }

@@ -1,17 +1,19 @@
 import Axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import {useLocation, useParams} from 'react-router-dom'
+import imgLoading from '../img-loading.svg'
 
 var lastCatch = 0 // 0 = nothing, 1 = success, -1 = fail
 
 function PokeDetail (){
 	const [name, setName] = useState("")
-	const [types, setTypes] = useState([{type: {name: ""}}])
+	const [types, setTypes] = useState([])
 	const [moves, setMoves] = useState([{move: {name: ""}}])
 	const [picture, setPicture] = useState("")
 	const [caught, setCaught] = useState([]) // list of nicknames of the caught Pokemon of this type
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [error, setError] = useState("") // error message from Axios or the API
+	const [imgLoaded, setImgLoaded] = useState(false)
 	
 	let {id} = useParams()
 
@@ -20,9 +22,7 @@ function PokeDetail (){
 	}, [])
 
 	function mapTypes(arrayofObj){
-		arrayofObj.map(t => {
-			return t.type.name
-		})
+		return arrayofObj.map(t => t.type.name)
 	}
 
 	function ShowPokeDetails(id){
@@ -32,7 +32,7 @@ function PokeDetail (){
 			//console.log(res)
 			setStatus(200)
 			setName(res.data.name)
-			setTypes(res.data.types)
+			setTypes(mapTypes(res.data.types))
 			setMoves(res.data.moves)
 			setPicture(res.data.sprites.front_default)
 		}).catch((err) => {
@@ -48,11 +48,11 @@ function PokeDetail (){
 		})
 	}
 
-	let typesDisplay = types.map(type =>
-		<div className="capitalize">
-			{type.type.name}
+	let typesDisplay = (
+		<div>
+			{types.join(" + ")}
 		</div>
-	);
+	)
 
 	let movesDisplay = moves.map(move =>
 		<div className="capitalize">
@@ -68,27 +68,31 @@ function PokeDetail (){
 
 	function DetailDisplay(){ // shows the details UI (picture, name, types, moves, nicknames)
 		return (
-			<div>
+			<div> {/* main div */}
+
 				<div className="detail-header">
-					<div>
-						<img src={picture} alt={"picture of " + name} className="v-align-mid"></img>
-						<span className="title capitalize">{name}</span>
+					<img src={picture} alt={"picture of " + name} className="v-align-mid" onLoad={() => {setImgLoaded(true)}}></img>
+					{imgLoaded ? null : <img src={imgLoading} className="v-align-mid"></img>}
+					<div className="inline-block v-align-mid">
+						<div className="title capitalize">{name}</div>
+						<div className="subtitle">{typesDisplay}</div>
 					</div>
-					<div>
-						<strong>Types</strong>:<br/>
-						{typesDisplay}
+				</div>
+
+				<div className="detail-split-container">
+
+					<div className="detail-content">
+						<strong>Moves</strong> (<strong>{moves.length}</strong>):<br/>
+						{movesDisplay}
 					</div>
+					<div className="detail-content">
+						<strong>Caught</strong> (<strong>{caught.length}</strong>):<br/>
+						{caught.length == 0 ? <div>You don't have any <span className="capitalize">{name}</span> caught.</div> : caughtDisplay}
+					</div>
+					
 				</div>
 				
-				<div>
-					<strong>Moves</strong> (<strong>{moves.length}</strong>):<br/>
-					{movesDisplay}
-				</div>
-				<div>
-					<strong>Caught</strong> (<strong>{caught.length}</strong>):<br/>
-					{caught.length == 0 ? <div>You don't have any <span className="capitalize">{name}</span> caught.</div> : caughtDisplay}
-				</div>
-			</div>
+			</div> /* end of main div */
 			
 		)
 	}
