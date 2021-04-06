@@ -82,6 +82,10 @@ a.nav-active{
   font-size: 20pt;
 }
 
+.capitalize{
+  text-transform: capitalize;
+}
+
 /* for mobile devices */
 @media(max-aspect-ratio: 3/2){
   .mobile-only{
