@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
 const limit = 100
 var maxPage
@@ -12,6 +12,8 @@ function PokeList(){
 	const [pokeCount, setPokeCount] = useState(0) // the total count of Pokemon from the API
 	const [pageNum, setPageNum] = useState(1) // current page number
 	const [error, setError] = useState("") // error message from Axios or the API
+
+	var targetPage = pageNum;
 
 	// request a list of Pokemon from the API
 	useEffect(() => {
@@ -28,6 +30,10 @@ function PokeList(){
 			setError(err.data)
 		});
 	}, [offset]) // only update if offset changes
+
+	/*useEffect(() => {
+
+	})*/
 
 	// calculates the offset of the last page
 	function lastPageOffset(){
@@ -85,6 +91,10 @@ function PokeList(){
 		}
 	}
 
+	function pageSelect(event){
+		targetPage = event.target.value
+	}
+
 	let displayList = list.map(poke =>
 		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.name}>
 			{poke.name} ({poke.count})
@@ -100,8 +110,14 @@ function PokeList(){
 			<span className="sep4"></span>
 			<button name="prev" disabled={offset == 0} onClick={() => {prevPage()}}>Prev</button>
 			<span className="sep10"></span>
-			<input name="pagejump" type="number" defaultValue={pageNum} max={maxPage} min={1}></input>
-			<button name="pagejumpgo">Go</button>
+			<select name="pagejump" defaultValue={pageNum} onChange={pageSelect} title="Choose a page number here and click/tap Go.">
+				{Array.from(Array(maxPage).keys()).map(p => 
+					<option key={p+1} value={p+1}>
+						{p+1}
+					</option>
+				)}
+			</select>
+			<button name="pagejumpgo" onClick={() => {pageJump(targetPage)}} title="Go to the page specified on the field to the left of this button.">Go</button>
 			<span className="sep10"></span>
 			<button name="next" disabled={pageNum >= maxPage} onClick={() => {nextPage()}}>Next</button>
 			<span className="sep4"></span>
@@ -112,10 +128,6 @@ function PokeList(){
 	return (
 
 		<div>
-			<div className="mobile-only">
-				Pokémon List
-			</div>
-
 			{status == 0 ?
 				<div className="loading">Loading page {pageNum}...</div>
 			: null }

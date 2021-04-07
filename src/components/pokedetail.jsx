@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, {useState, useEffect} from 'react';
-import {useLocation, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import imgLoading from '../img-loading.svg'
 
 var lastCatch = 0 // 0 = nothing, 1 = success, -1 = fail
@@ -89,7 +89,7 @@ function PokeDetail (){
 						<strong>Caught</strong> (<strong>{caught.length}</strong>):<br/>
 						{caught.length == 0 ? <div>You don't have any <span className="capitalize">{name}</span> caught.</div> : caughtDisplay}
 					</div>
-					
+
 				</div>
 				
 			</div> /* end of main div */
@@ -99,9 +99,6 @@ function PokeDetail (){
 
 	return (
 		<div>
-			<div className="mobile-only">
-				Pokémon Details
-			</div>
 			{status == 0 ?
 				<div className="loading">Loading details for <span className="capitalize">{id}</span>...</div>
 			: null }
