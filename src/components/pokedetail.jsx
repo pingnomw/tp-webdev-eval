@@ -44,6 +44,17 @@ function PokeDetail (){
 		}
 	}
 
+	function releasePoke(nick){
+		var newList = caught.filter((name) => {
+			return (name != nick)
+		})
+		setCaught(newList)
+	}
+
+	function releaseClick(event){
+		releasePoke(event.target.name)
+	}
+
 	function namePoke(){
 		if (lastNickname.length == 0 || caught.includes(lastNickname)){ // if nickname is empty or already in use
 			setLastCatch(2)
@@ -100,6 +111,7 @@ function PokeDetail (){
 
 	let caughtDisplay = caught.map(nick =>
 		<li key={nick}>
+			<button name={nick} onClick={releaseClick}>Release</button>
 			{nick}
 		</li>
 	);
@@ -111,7 +123,7 @@ function PokeDetail (){
 				{lastCatch > 0
 				? <div>
 					<div>You caught a <span className="capitalize">{name}</span>! Give it a nickname:</div>
-					<input title={"Enter a nickname for the newly caught Pokemon here"} onChange={updateNicknameField}></input>
+					<input title={"Enter a nickname for the newly caught Pokemon here"} defaultValue={lastNickname} onChange={updateNicknameField}></input>
 					<button onClick={namePoke}>OK</button>
 					<button onClick={cancelCatch}>Cancel</button>
 					{lastCatch == 2 && lastNickname.length > 0
