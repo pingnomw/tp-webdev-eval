@@ -92,7 +92,8 @@ function PokeList(){
 	}
 
 	function pageSelect(event){
-		targetPage = event.target.value
+		targetPage = Number(event.target.value)
+		pageJump(targetPage)
 	}
 
 	let displayList = list.map(poke =>
@@ -110,14 +111,14 @@ function PokeList(){
 			<span className="sep4"></span>
 			<button name="prev" disabled={offset == 0} onClick={() => {prevPage()}}>Prev</button>
 			<span className="sep10"></span>
-			<select name="pagejump" defaultValue={pageNum} onChange={pageSelect} title="Choose a page number here and click/tap Go.">
+			<select name="pagejump" defaultValue={pageNum} onChange={pageSelect} title="Go to a specific page.">
 				{Array.from(Array(maxPage).keys()).map(p => 
 					<option key={p+1} value={p+1}>
 						{p+1}
 					</option>
 				)}
 			</select>
-			<button name="pagejumpgo" onClick={() => {pageJump(targetPage)}} title="Go to the page specified on the field to the left of this button.">Go</button>
+			{/*<button name="pagejumpgo" onClick={() => {pageJump(targetPage)}} title="Go to the page specified on the field to the left of this button.">Go</button>*/}
 			<span className="sep10"></span>
 			<button name="next" disabled={pageNum >= maxPage} onClick={() => {nextPage()}}>Next</button>
 			<span className="sep4"></span>
