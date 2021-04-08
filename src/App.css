@@ -201,6 +201,18 @@ a.nav-active{
   flex-basis: 0;
 }
 
+.big-button{
+  font-size: 16pt;
+}
+
+.small-text{
+  font-size: 10pt
+}
+
+.center{
+  text-align: center;
+}
+
 .sep4{
   display: inline-block;
   width: 4pt;

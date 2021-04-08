@@ -6,7 +6,7 @@ const limit = 100
 var maxPage
 
 function PokeList(){
-	const [list, setList] = useState([]) // the list of pokemon
+	const [list, setList] = useState([{id: 0, name: ""}]) // the list of pokemon
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [offset, setOffset] = useState(0) // the offset of the Pokemon list
 	const [pokeCount, setPokeCount] = useState(0) // the total count of Pokemon from the API
@@ -14,6 +14,15 @@ function PokeList(){
 	const [error, setError] = useState("") // error message from Axios or the API
 
 	var targetPage = pageNum;
+
+	// actually removes the URL and adds the ID
+	// DO WE REALLY NEED TO DO THIS?
+	function processResponse(resArray){
+		var newArray = resArray.map((val, idx) => {
+			return ({id: (idx + offset + 1), name: val.name})
+		})
+		setList(newArray)
+	}
 
 	// request a list of Pokemon from the API
 	useEffect(() => {
@@ -23,7 +32,8 @@ function PokeList(){
 			//console.log(res)
 			setPokeCount(res.data.count)
 			maxPage = Math.ceil(res.data.count / limit)
-			setList(res.data.results)
+			//setList(res.data.results)
+			processResponse(res.data.results)
 		}).catch((err) => {
 			console.log("Error: " + err);
 			setStatus(err.status)
@@ -98,7 +108,7 @@ function PokeList(){
 
 	let displayList = list.map(poke =>
 		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.name}>
-			{poke.name} ({poke.count})
+			{poke.name} ({poke.id})
 			{/*<Link to="/detail/:id">{poke.name} ({poke.count})</Link>*/}
 		</Link>
 	);

@@ -7,11 +7,17 @@ import PokeList from "./components/pokelist"
 import PokeDetail from "./components/pokedetail"
 import MyPokes from "./components/mypokes"
 
+
 class App extends React.Component {
-	/*constructor(props){ 
+	constructor(props){ 
 		super(props);
-		this.state = {pos: 'l'}; // l = list, d = detail, m = my
-	}*/
+		this.state = {caught: []};
+		/*
+		store caught Pokemon in the following format:
+		[{type: "charmander", name: "nickname1"}, {type:"bulbasaur", name: "CASE SENSITIVE"}]
+		then use Array.filter() to pass the list of Pokemon to details
+		*/
+	}
 
 	render(){
 		return (
