@@ -24,7 +24,7 @@ function PokeList(props){
 	}
 
 	// request a list of Pokemon from the API
-	useEffect(() => {
+	/*useEffect(() => {
 		console.log("Sending request to https://pokeapi.co/api/v2/pokemon?limit=" + limit + "&offset=" + offset)
 		Axios.get("https://pokeapi.co/api/v2/pokemon?limit=" + limit + "&offset=" + offset).then((res) => {
 			setStatus(200)
@@ -38,11 +38,11 @@ function PokeList(props){
 			setStatus(err.status)
 			setError(err.data)
 		});
-	}, [offset]) // only update if offset changes
+	}, [offset])*/ // only update if offset changes
 
-	/*useEffect(() => {
-
-	})*/
+	useEffect(() => {
+		setStatus(200)
+	})
 
 	// calculates the offset of the last page
 	function lastPageOffset(){
@@ -105,12 +105,22 @@ function PokeList(props){
 		pageJump(targetPage)
 	}
 
-	var displayList = list.map((poke, index) =>
+	/*var displayList = list.map((poke, index) =>
 		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.id}>
 			{poke.name} ({poke.caughtNum})
-			{/*<Link to="/detail/:id">{poke.name} ({poke.count})</Link>*/}
+		</Link>
+	);*/
+
+	var displayList = props.pokeList.map((poke, index) =>
+		<Link className="list-item list-link block hidden-link capitalize" to={"/detail/" + Number(index)}>
+			{poke}
+			{props.caughtList[index].length == 0
+			? <div className="default-sized-text text-gray">NONE OWNED</div>
+			: <div className="default-sized-text">{props.caughtList[index].length} OWNED</div>
+			}
 		</Link>
 	);
+
 
 	// page navigation buttons + position indicator
 	let pageButtons = (
@@ -139,16 +149,16 @@ function PokeList(props){
 
 		<div>
 			{status == 0 ?
-				<div className="loading">Loading page {pageNum}...</div>
+				<div className="loading">Loading list...</div>
 			: null }
 
 			{status == 200 ?
 				<div>
-					{pageButtons}
+					{/*pageButtons*/}
 					<div className="list-container">
 						{displayList}
 					</div>
-					{pageButtons}
+					{/*pageButtons*/}
 				</div>
 			: null}
 

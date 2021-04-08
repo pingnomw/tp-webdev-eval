@@ -95,11 +95,11 @@ function PokeDetail (props){
 	// updates the state variables if successful, or
 	// reports the error if failed
 	function getPokeDetails(id){
-		//console.log("Requesting https://pokeapi.co/api/v2/pokemon/" + id + "/")
-		Axios.get("https://pokeapi.co/api/v2/pokemon/" + id + "/").then((res) => {
+		console.log("Requesting https://pokeapi.co/api/v2/pokemon/" + Number(Number(id)+1) + "/")
+		Axios.get("https://pokeapi.co/api/v2/pokemon/" + Number(Number(id)+1) + "/").then((res) => {
 			//console.log("RESPONSE")
 			//console.log(res)
-			setNumericID(Number(res.data.id))
+			setNumericID(Number(res.data.id-1))
 			setName(res.data.name)
 			setTypes(mapTypes(res.data.types))
 			setMoves(mapMoves(res.data.moves))

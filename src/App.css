@@ -154,9 +154,22 @@ a.nav-active{
   color: black;
 }
 
-.list-item:hover{
+.link-never-visited{
+  color: blue;
+}
+
+.link-never-visited:hover{
+  color: #0000a0;
+  background-color: #ddeeff;
+}
+
+.list-link:hover{
   background-color: #ddeeff;
   color: blue;
+}
+
+.text-gray{
+  color: gray;
 }
 
 .pgnum{
@@ -207,6 +220,10 @@ a.nav-active{
 
 .small-text{
   font-size: 10pt
+}
+
+.default-sized-text{
+  font-size: 12pt
 }
 
 .center{
