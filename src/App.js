@@ -10,7 +10,7 @@ import MyPokes from "./components/mypokes"
 
 
 function App() {
-	const [caught, setCaught] = useState([[]])
+	const [caught, setCaught] = useState([])
 	/*
 	store caught Pokemon in the following format:
 	caught[<pokeID>] = [name1, name2, ...]
@@ -25,7 +25,24 @@ function App() {
 	// initialize a "2D" array of <count> rows and 0 columns (will use Array.push() to add elements)
 	function initCaughtArray(count){
 		setPokeCount(count)
-		setCaught([...Array(count)].map(e => []))
+		if (localStorage.getItem('caughtList')){
+			setCaught(JSON.parse(localStorage.getItem('caughtList')))
+		} else {
+			setCaught([...Array(count)].map(e => []))
+		}
+	}
+
+	/*useEffect(()=>{
+		localStorage.setItem('caughtList', caught)
+		console.log("STORED")
+		console.log(JSON.stringify(caught))
+	}, [caught])
+	*/
+
+	// store the caught array in local storage
+	function storeLocalStorage() {
+		console.log("STORED")
+		localStorage.setItem('caughtList', JSON.stringify(caught))
 	}
 	
 	/*
@@ -77,6 +94,7 @@ function App() {
 		list[id].push(name)
 		//list[0] = []
 		setCaught(list)
+		storeLocalStorage(list)
 	};
 
 	// remove a Pokemon from the caught list
@@ -88,6 +106,7 @@ function App() {
 			return (name != toBeDeleted)
 		})
 		setCaught(list)
+		storeLocalStorage(list)
 	};
 
 	return (
