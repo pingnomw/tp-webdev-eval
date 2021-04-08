@@ -122,7 +122,7 @@ function App() {
 				<Route path="/my">
 					<MyPokes count={pokeCount} pokeList={pokeNames} caughtList={caught} onPokeRelease={removePoke}/>
 				</Route>
-				<Route exact path="/">
+				<Route path="/">
 					<Link to="/list" className="list-item list-link block hidden-link">All Pokémon List</Link>
 					<Link to="/my" className="list-item list-link block hidden-link">My Owned Pokémon</Link>
 				</Route>
