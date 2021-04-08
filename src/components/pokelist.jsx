@@ -5,7 +5,7 @@ import {Link, useParams} from 'react-router-dom';
 const limit = 100
 var maxPage
 
-function PokeList(){
+function PokeList(props){
 	const [list, setList] = useState([{id: 0, name: ""}]) // the list of pokemon
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [offset, setOffset] = useState(0) // the offset of the Pokemon list
@@ -16,10 +16,9 @@ function PokeList(){
 	var targetPage = pageNum;
 
 	// actually removes the URL and adds the ID
-	// DO WE REALLY NEED TO DO THIS?
 	function processResponse(resArray){
 		var newArray = resArray.map((val, idx) => {
-			return ({id: (idx + offset + 1), name: val.name})
+			return ({id: (idx + offset + 1), name: val.name, caughtNum: props.caughtList[idx+offset+1].length})
 		})
 		setList(newArray)
 	}
@@ -106,9 +105,9 @@ function PokeList(){
 		pageJump(targetPage)
 	}
 
-	let displayList = list.map(poke =>
-		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.name}>
-			{poke.name} ({poke.id})
+	var displayList = list.map((poke, index) =>
+		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.id}>
+			{poke.name} ({poke.caughtNum})
 			{/*<Link to="/detail/:id">{poke.name} ({poke.count})</Link>*/}
 		</Link>
 	);

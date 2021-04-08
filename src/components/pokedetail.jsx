@@ -9,20 +9,20 @@ var lastNickname = "" // the nickname of the last (latest) catch
 	lastNickname = n
 }*/
 
-function PokeDetail (){
-	const [numericID, setNumericID] = useState(0) // the ID of the Pokemon according to the API, used to store the list of caught Pokemon of this type
+function PokeDetail (props){
+	let {id} = useParams()
+
+	const [numericID, setNumericID] = useState(id) // the ID of the Pokemon according to the API, used to store the list of caught Pokemon of this type
 	const [name, setName] = useState("")
 	const [types, setTypes] = useState([])
 	const [moves, setMoves] = useState([])
 	const [picture, setPicture] = useState("")
-	const [caught, setCaught] = useState([]) // list of nicknames of the caught Pokemon of this type
+	const [caught, setCaught] = useState(props.caughtList[numericID]) // (WE ACTUALLY DON'T CARE ABOUT THIS) list of nicknames of the caught Pokemon of this type
 	const [lastCatch, setLastCatch] = useState(0) // results of the last catch: 0 = nothing, 1 = success, 2 = invalid name, -1 = fail
 	//const [lastNickname, setLastNickname] = useState("") // the nickname of the last Pokemon caught (temporarily stored until pushed to array)
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [error, setError] = useState("") // error message from Axios or the API
 	const [imgLoaded, setImgLoaded] = useState(false)
-	
-	let {id} = useParams()
 
 	useEffect(()=>{ // get Pokemon details on component load
 		getPokeDetails(id)
@@ -49,10 +49,12 @@ function PokeDetail (){
 
 	// releases Pokemon with a specified nickname, called from releaseClick
 	function releasePoke(nick){
-		var newList = caught.filter((name) => {
+		/*var newList = caught.filter((name) => {
 			return (name != nick)
 		})
-		setCaught(newList)
+		setCaught(newList)*/
+		props.onPokeRelease(numericID, nick)
+		setCaught(props.caughtList[numericID])
 	}
 
 	// releases Pokemon based on the name of the triggering object
@@ -66,8 +68,10 @@ function PokeDetail (){
 			setLastCatch(2) // bad name (empty or duplicate)
 		} else {
 			setLastCatch(0)
-			caught.push(lastNickname)
+			//caught.push(lastNickname)
+			props.onPokeCatch(numericID, lastNickname)
 			lastNickname = ""
+			setCaught(props.caughtList[numericID])
 		}
 	}
 
@@ -202,7 +206,7 @@ function PokeDetail (){
 	return (
 		<div>
 			{status == 0 ?
-				<div className="loading">Loading details for <span className="capitalize">{id}</span>...</div>
+				<div className="loading">Loading Pokemon details...</div>
 			: null }
 
 			{status == 200 ?
