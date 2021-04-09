@@ -142,9 +142,14 @@ function PokeDetail (props){
 	function CatchOptions(){
 		return(
 			<div className="inline-block v-align-mid">
-				<div className={lastCatch > 0 ? "inline-block v-align-mid desktop-only" : "inline-block v-align-mid"}>
+				<div className={lastCatch > 0 ? "desktop-only-inline-block" : "catch-options"}>
 					<button className="big-button" onClick={() => {catchPoke()}} disabled={lastCatch > 0}>CATCH</button>
-					<div className="small-text center">(50% chance)</div>
+					{lastCatch > 0 ? null :
+					<span>
+						<span className="sep4"></span>
+						<span className="small-text">(50% chance)</span>
+					</span>
+					}
 				</div>
 				<span className="sep4"></span>
 				<div className="inline-block v-align-mid">
@@ -183,6 +188,7 @@ function PokeDetail (props){
 						<div className="subtitle">{typesDisplay}</div>
 					</div>
 					<div className="inline-block sep10"></div>
+					<br className="mobile-only" />
 					<CatchOptions />
 				</div>
 

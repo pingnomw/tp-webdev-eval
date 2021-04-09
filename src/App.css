@@ -87,6 +87,10 @@ body{
   display: initial;
 }
 
+.desktop-only-inline-block{
+  display: inline-block;
+}
+
 a.nav-active{
   color: black;
 }
@@ -310,6 +314,11 @@ a.nav-active{
   float: right;
 }
 
+.catch-options{
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* for mobile devices */
 @media(max-aspect-ratio: 3/2){
   .mobile-only{
@@ -317,6 +326,10 @@ a.nav-active{
   }
 
   .desktop-only{
+    display: none;
+  }
+
+  .desktop-only-inline-block{
     display: none;
   }
 
@@ -390,5 +403,13 @@ a.nav-active{
     padding-right: 6pt;
     margin-top: auto;
     margin-bottom: auto;
+  }
+
+  .catch-options{
+    display: block;
+  }
+
+  .center-mobile{
+    text-align: center;
   }
 }
