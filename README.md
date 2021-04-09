@@ -2,11 +2,12 @@
 ## by Winston P
 ## Hosted on [GitHub Pages](https://pingnomw.github.io/tp-webdev-eval/)
 
-**Note**: This project meets the listed requirements but will be improved before the deadline.
+**Note**: This project meets the listed requirements but can still be improved before the deadline.
 
 ## Description
 
-Retrieves a list of all Pokemon from [PokeAPI](https://pokeapi.co/). The user can do the following:
+The user can do the following:
+- read a list of all Pokemon from [PokeAPI](https://pokeapi.co/).
 - see the details of each Pokemon (also provided by PokeAPI)
 - attempt to catch it (50% chance of succeeding for each button press)
 - give caught Pokemon nicknames (cannot have the same nickname for the same Pokemon, same nickname for different Pokemon is allowed)

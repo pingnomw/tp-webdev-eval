@@ -135,7 +135,7 @@ a.nav-active{
 }
 
 .list-item{
-  width: 45vw;
+  /*width: 45vw;*/
   height: 48pt;
   /*border: 1px solid black;*/
   display: inline-block;
@@ -143,6 +143,7 @@ a.nav-active{
   vertical-align: top;
   flex-grow: 1;
   flex-basis: 45%;
+  max-width: 50%;
   font-size: 20pt;
   padding: 6pt;
   margin: 3pt;
@@ -206,7 +207,7 @@ a.nav-active{
   width: 100%;
 }
 
-.detail-content{
+.detail-content,.detail-content-nomobile{
   /*width: 45vw;*/
   text-align: left;
   padding: 6pt;
@@ -254,17 +255,77 @@ a.nav-active{
   width: 10pt;
 }
 
+.search-input{
+  width: 50%;
+}
+
+.search-buttons{
+  padding: initial;
+}
+
+.search-container{
+  position: sticky;
+  top: 32pt;
+  background-color: #C1E0FF;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.search-buttons-container{
+  width: 25%
+}
+
+.search-exec-button{
+  width: 60%;
+}
+
+.search-reset-button{
+  width: 40%;
+}
+
+.mobile-detail-selector{
+  display: none;
+}
+
+.mobile-button{
+  display: none;
+}
+
+.left-align{
+  text-align: left;
+}
+
+.mobile-detail-selector-title{
+  padding-inline-start: 6pt;
+  padding-top: 4pt;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.float-left{
+  float: left;
+}
+
+.float-right{
+  float: right;
+}
+
 /* for mobile devices */
 @media(max-aspect-ratio: 3/2){
   .mobile-only{
     display: initial;
   }
 
+  .desktop-only{
+    display: none;
+  }
+
   .navitem{
-    display: block;
+    /*display: block;*/
     /*width: 100vw;*/
     text-align: center;
     padding: 10pt 6pt;
+    min-width: 60pt;
   }
 
   .nav-active{
@@ -279,6 +340,7 @@ a.nav-active{
   .list-item{
     display: block;
     width: initial;
+    max-width: initial;
   }
 
   .detail-split-container{
@@ -288,5 +350,45 @@ a.nav-active{
   .detail-content{
     display: block;
     width: initial;
+  }
+
+  .detail-content-nomobile{
+    display: none;
+  }
+
+  .search-container{
+    top: 44pt;
+  }
+
+  .search-buttons{
+    padding-top: 4pt;
+    padding-bottom: 4pt;
+  }
+
+  .search-input{
+    width: 80%;
+  }
+
+  .search-buttons-container{
+    width: 81%; /* seems like .search-input width is actually closer to 81% */
+  }
+
+  .mobile-detail-selector{
+    display: block;
+    position: sticky;
+    top: 36.5pt;
+    background-color: #C1E0FF;
+    margin-left: 6pt;
+    margin-right: 6pt;
+    height: 22pt;
+  }
+
+  .mobile-detail-switch-button{
+    display: initial;
+    padding-top: 4pt;
+    padding-bottom: 4pt;
+    padding-right: 6pt;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }

@@ -114,7 +114,7 @@ function App() {
 			<Navbar />
 			<Switch>
 				<Route path="/list">
-					<PokeList pokeList={pokeNames} caughtList={caught}/>
+					<PokeList status={status} pokeList={pokeNames} caughtList={caught}/>
 				</Route>
 				<Route path="/detail/:id">
 					<PokeDetail caughtList={caught} onPokeCatch={addPoke} onPokeRelease={removePoke}/>

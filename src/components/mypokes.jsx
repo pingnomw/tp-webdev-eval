@@ -4,7 +4,10 @@ import {Link} from 'react-router-dom';
 
 function MyPokes (props){
 	const [update, setUpdate] = useState(false) // used to trigger DOM update
+	const [anythingCaught, setAnythingCaught] = useState(0)
 	//const [pokeNames, setPokeNames] = useState([]) // list of Pokemon by ID
+
+	var tempAnythingCaught = false
 
 	/*useEffect(() => {
 		console.log("count = " + props.count)
@@ -29,6 +32,7 @@ function MyPokes (props){
 	return (
 		<div className="list-container">
 			{props.caughtList.map((poke, id) => { // id = the Pokemon "class" ID used by the API
+				tempAnythingCaught = tempAnythingCaught || (poke.length > 0)
 				return (poke.map((nick) => {
 					return (
 						<div className="list-item block">
@@ -40,6 +44,7 @@ function MyPokes (props){
 					)
 				}))
 			})}
+			{/*(!anythingCaught) ? <div className="title">You don't have any Pokemon caught.</div> : null*/}
 		</div>
 	)
 }

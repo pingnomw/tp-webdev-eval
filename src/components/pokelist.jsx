@@ -1,4 +1,4 @@
-import Axios from 'axios';
+//import Axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
@@ -6,25 +6,25 @@ const limit = 100
 var maxPage
 
 function PokeList(props){
-	const [list, setList] = useState([{id: 0, name: ""}]) // the list of pokemon
-	const [status, setStatus] = useState(0) // the status of the HTTP request
-	const [offset, setOffset] = useState(0) // the offset of the Pokemon list
+	//const [list, setList] = useState([{id: 0, name: ""}]) // the list of pokemon
+	const [status, setStatus] = useState(props.status) // the status of the HTTP request
+	//const [offset, setOffset] = useState(0) // the offset of the Pokemon list
 	const [pokeCount, setPokeCount] = useState(0) // the total count of Pokemon from the API
-	const [pageNum, setPageNum] = useState(1) // current page number
+	//const [pageNum, setPageNum] = useState(1) // current page number
 	const [error, setError] = useState("") // error message from Axios or the API
-	const [searching, setSearching] = useState(false)
-	const [searchQeury, setSearchQuery] = useState("")
+	const [searching, setSearching] = useState(false) // if true, then filter the list based on searchQuery
+	const [searchQeury, setSearchQuery] = useState("") // if searching is true, then only show Pokemon with the name containing this (only updated when search is clicked)
 
-	var tempSearchQuery = ""
-	var targetPage = pageNum;
+	var tempSearchQuery = "" // instantly updated whenever the user changes something in the search box
+	//var targetPage = pageNum;
 
 	// actually removes the URL and adds the ID
-	function processResponse(resArray){
+	/*function processResponse(resArray){
 		var newArray = resArray.map((val, idx) => {
 			return ({id: (idx + offset + 1), name: val.name, caughtNum: props.caughtList[idx+offset+1].length})
 		})
 		setList(newArray)
-	}
+	}*/
 
 	// request a list of Pokemon from the API
 	// now done only once from App.js
@@ -45,11 +45,13 @@ function PokeList(props){
 	}, [offset])*/ // only update if offset changes
 
 	useEffect(() => {
-		setStatus(200)
-	})
+		if (props.pokeList.length > 0){
+			setStatus(props.status)
+		}
+	}, [props.status, props.pokeList])
 
 	// calculates the offset of the last page
-	function lastPageOffset(){
+	/*function lastPageOffset(){
 		return Math.floor(pokeCount/limit)*limit
 	}
 
@@ -107,11 +109,15 @@ function PokeList(props){
 	function pageSelect(event){
 		targetPage = Number(event.target.value)
 		pageJump(targetPage)
-	}
+	}*/
 
-	function search(query){
-		setSearchQuery(tempSearchQuery)
-		setSearching(true)
+	function search(){
+		if (tempSearchQuery.length > 0){
+			setSearchQuery(tempSearchQuery)
+			setSearching(true)
+		} else if (searching){ // and temp search query is blank
+			resetSearch()
+		}
 	}
 
 	function resetSearch(){
@@ -146,7 +152,7 @@ function PokeList(props){
 
 	// page navigation buttons + position indicator
 	// NO LONGER USED
-	var pageButtons = (
+	/*var pageButtons = (
 		<div className="pgnav">
 			<div className="pgnum">Page {pageNum}/{maxPage} (entries {offset+1} - {pageNum == maxPage ? pokeCount : offset+limit} out of {pokeCount})</div>
 			<button name="first" disabled={offset == 0} onClick={() => {firstPage()}}>First</button>
@@ -160,24 +166,26 @@ function PokeList(props){
 					</option>
 				)}
 			</select>
-			{/*<button name="pagejumpgo" onClick={() => {pageJump(targetPage)}} title="Go to the page specified on the field to the left of this button.">Go</button>*/}
 			<span className="sep10"></span>
 			<button name="next" disabled={pageNum >= maxPage} onClick={() => {nextPage()}}>Next</button>
 			<span className="sep4"></span>
 			<button name="last" disabled={pageNum >= maxPage} onClick={() => {lastPage()}}>Last</button>		
 		</div>
-	)
+	)*/
 
 	var searchOptions = (
-		<div className="detail-header">
-			<input name="searchbox" onChange={(event) => tempSearchQuery = event.target.value}></input>
-			<button name="searchbtn" onClick={search}>Search</button>
-			<button name="searchreset" onClick={resetSearch} disabled={!searching}>Reset search</button>
+		<div className="detail-header search-container">
+			<input name="searchbox" onChange={(event) => tempSearchQuery = event.target.value.toLowerCase()} className="search-input"></input>
+			<br className="mobile-only" />
+			<div className="inline-block search-buttons-container">
+				<button name="searchbtn" onClick={search} className="search-exec-button search-buttons">Filter by name</button>
+				<button name="searchreset" onClick={resetSearch} disabled={!searching} className="search-reset-button search-buttons">{searching ? "Show all" : "Showing all"}</button>
+			</div>
+			
 		</div>
 	)
 
-	return (
-
+	return ( // main render "function"
 		<div>
 			{status == 0 ?
 				<div className="loading">Loading list...</div>

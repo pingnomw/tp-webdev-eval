@@ -23,6 +23,7 @@ function PokeDetail (props){
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [error, setError] = useState("") // error message from Axios or the API
 	const [imgLoaded, setImgLoaded] = useState(false)
+	const [mobileNav, setMobileNav] = useState(false) // false = only show moves on mobile, true = only show owned nicknames on mobile, this is not used on desktop
 
 	useEffect(()=>{ // get Pokemon details on component load
 		getPokeDetails(id)
@@ -118,19 +119,19 @@ function PokeDetail (props){
 		})
 	}
 
-	let typesDisplay = (
+	var typesDisplay = (
 		<div>
 			{types.join(" + ")}
 		</div>
 	)
 
-	let movesDisplay = moves.map(move =>
+	var movesDisplay = moves.map(move =>
 		<div className="capitalize">
 			{move}
 		</div>
 	);
 
-	let caughtDisplay = caught.map(nick =>
+	var caughtDisplay = caught.map(nick =>
 		<div>
 			<button name={nick} onClick={releaseClick}>Release</button>
 			<span className="sep4"></span>
@@ -141,7 +142,7 @@ function PokeDetail (props){
 	function CatchOptions(){
 		return(
 			<div className="inline-block v-align-mid">
-				<div className="inline-block v-align-mid">
+				<div className={lastCatch > 0 ? "inline-block v-align-mid desktop-only" : "inline-block v-align-mid"}>
 					<button className="big-button" onClick={() => {catchPoke()}} disabled={lastCatch > 0}>CATCH</button>
 					<div className="small-text center">(50% chance)</div>
 				</div>
@@ -185,14 +186,19 @@ function PokeDetail (props){
 					<CatchOptions />
 				</div>
 
+				<div className="mobile-detail-selector">
+					<span className="mobile-detail-selector-title float-left"><strong className="capitalize">{mobileNav ? ("Caught " + name + " (" + caught.length + ")") : (name + " moves (" + moves.length + ")")}</strong></span>
+					<button className="mobile-detail-switch-button float-right" onClick={() => {setMobileNav(!mobileNav)}}>{mobileNav ? "Show Moves" : "Show Caught"}</button>
+				</div>
+
 				<div className="detail-split-container">
 
-					<div className="detail-content">
-						<strong>Moves</strong> (<strong>{moves.length}</strong>):<br/>
+					<div className={mobileNav ? "detail-content-nomobile" : "detail-content"}>
+						<div className="desktop-only"><strong>Moves</strong> (<strong>{moves.length}</strong>):</div>
 						{movesDisplay}
 					</div>
-					<div className="detail-content">
-						<strong>Caught</strong> (<strong>{caught.length}</strong>):<br/>
+					<div className={mobileNav ? "detail-content" : "detail-content-nomobile"}>
+						<div className="desktop-only"><strong>Caught</strong> (<strong>{caught.length}</strong>):</div>
 						{caught.length == 0 ? <div>You don't have any <span className="capitalize">{name}</span> caught.</div> : caughtDisplay}
 					</div>
 

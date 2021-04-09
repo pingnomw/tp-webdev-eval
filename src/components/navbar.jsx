@@ -13,8 +13,14 @@ function Navbar(){
 			<button className="navitem" onClick={() => window.history.back()}>Back</button>
 			:
 			<div>
-				<NavLink to="/list" className="navitem" activeClassName="nav-active">All Pokémon List</NavLink>
-				<NavLink to="/my" className="navitem" activeClassName="nav-active">My Owned Pokémon</NavLink>
+				<div className="desktop-only">
+					<NavLink to="/list" className="navitem" activeClassName="nav-active">All Pokémon List</NavLink>
+					<NavLink to="/my" className="navitem" activeClassName="nav-active">My Owned Pokémon</NavLink>
+				</div>
+				<div className="mobile-only">
+					<NavLink to="/list" className="navitem" activeClassName="nav-active">All</NavLink>
+					<NavLink to="/my" className="navitem" activeClassName="nav-active">Owned</NavLink>
+				</div>
 			</div>
 			}
 		</div>
