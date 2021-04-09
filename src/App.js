@@ -113,9 +113,6 @@ function App() {
 		<div className="App">
 			<Navbar />
 			<Switch>
-				<Route path="/list">
-					<PokeList status={status} pokeList={pokeNames} caughtList={caught}/>
-				</Route>
 				<Route path="/detail/:id">
 					<PokeDetail caughtList={caught} onPokeCatch={addPoke} onPokeRelease={removePoke}/>
 				</Route>
@@ -123,9 +120,12 @@ function App() {
 					<MyPokes count={pokeCount} pokeList={pokeNames} caughtList={caught} onPokeRelease={removePoke}/>
 				</Route>
 				<Route path="/">
+					<PokeList status={status} pokeList={pokeNames} caughtList={caught}/>
+				</Route>
+				{/*<Route path="/">
 					<Link to="/list" className="list-item list-link block hidden-link">All Pokémon List</Link>
 					<Link to="/my" className="list-item list-link block hidden-link">My Owned Pokémon</Link>
-				</Route>
+				</Route>*/}
 			</Switch>
 		</div>
 	);
