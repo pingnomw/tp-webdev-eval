@@ -7,12 +7,13 @@
 ## Description
 
 The user can do the following:
-- read a list of all Pokemon from [PokeAPI](https://pokeapi.co/).
+- read a list of all Pokemon from [PokeAPI](https://pokeapi.co/)
+- search for Pokemon by name from the list
 - see the details of each Pokemon (also provided by PokeAPI)
 - attempt to catch it (50% chance of succeeding for each button press)
 - give caught Pokemon nicknames (cannot have the same nickname for the same Pokemon, same nickname for different Pokemon is allowed)
 - show a list of Pokemon they have
-- release a caught Pokemon
+- release a caught Pokemon (both from the list of all caught Pokemon and from the details of a single Pokemon)
 
 The list of caught Pokemon will not reset even after the page has been refreshed, or even after the browser has been closed in most cases.
 
