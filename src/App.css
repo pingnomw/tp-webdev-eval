@@ -186,11 +186,15 @@ a.nav-active{
 }
 
 .detail-header{
-  min-height: 96px;
   text-align: left;
   padding: 6pt;
   margin: 6pt;
   background-color: white;
+}
+
+.poke-img-container{
+  min-height: 96px;
+  min-width: 96px;
 }
 
 .detail-split-container{

@@ -12,7 +12,10 @@ function PokeList(props){
 	const [pokeCount, setPokeCount] = useState(0) // the total count of Pokemon from the API
 	const [pageNum, setPageNum] = useState(1) // current page number
 	const [error, setError] = useState("") // error message from Axios or the API
+	const [searching, setSearching] = useState(false)
+	const [searchQeury, setSearchQuery] = useState("")
 
+	var tempSearchQuery = ""
 	var targetPage = pageNum;
 
 	// actually removes the URL and adds the ID
@@ -24,6 +27,7 @@ function PokeList(props){
 	}
 
 	// request a list of Pokemon from the API
+	// now done only once from App.js
 	/*useEffect(() => {
 		console.log("Sending request to https://pokeapi.co/api/v2/pokemon?limit=" + limit + "&offset=" + offset)
 		Axios.get("https://pokeapi.co/api/v2/pokemon?limit=" + limit + "&offset=" + offset).then((res) => {
@@ -105,25 +109,44 @@ function PokeList(props){
 		pageJump(targetPage)
 	}
 
+	function search(query){
+		setSearchQuery(tempSearchQuery)
+		setSearching(true)
+	}
+
+	function resetSearch(){
+		setSearching(false)
+		setSearchQuery("")
+		tempSearchQuery = ""
+	}
+
 	/*var displayList = list.map((poke, index) =>
 		<Link className="list-item block hidden-link capitalize" to={"/detail/" + poke.id}>
 			{poke.name} ({poke.caughtNum})
 		</Link>
 	);*/
 
+	function DisplayPoke(poke, index){
+		return(
+			<Link className="list-item list-link block hidden-link capitalize" to={"/detail/" + Number(index)}>
+				{poke}
+				{props.caughtList[index].length == 0
+				? <div className="default-sized-text text-gray">NONE OWNED</div>
+				: <div className="default-sized-text">{props.caughtList[index].length} OWNED</div>
+				}
+			</Link>
+		)
+	}
+
 	var displayList = props.pokeList.map((poke, index) =>
-		<Link className="list-item list-link block hidden-link capitalize" to={"/detail/" + Number(index)}>
-			{poke}
-			{props.caughtList[index].length == 0
-			? <div className="default-sized-text text-gray">NONE OWNED</div>
-			: <div className="default-sized-text">{props.caughtList[index].length} OWNED</div>
-			}
-		</Link>
+		{return (searching === false || poke.includes(searchQeury)) ? DisplayPoke(poke, index) : null}
 	);
 
 
+
 	// page navigation buttons + position indicator
-	let pageButtons = (
+	// NO LONGER USED
+	var pageButtons = (
 		<div className="pgnav">
 			<div className="pgnum">Page {pageNum}/{maxPage} (entries {offset+1} - {pageNum == maxPage ? pokeCount : offset+limit} out of {pokeCount})</div>
 			<button name="first" disabled={offset == 0} onClick={() => {firstPage()}}>First</button>
@@ -145,6 +168,14 @@ function PokeList(props){
 		</div>
 	)
 
+	var searchOptions = (
+		<div className="detail-header">
+			<input name="searchbox" onChange={(event) => tempSearchQuery = event.target.value}></input>
+			<button name="searchbtn" onClick={search}>Search</button>
+			<button name="searchreset" onClick={resetSearch} disabled={!searching}>Reset search</button>
+		</div>
+	)
+
 	return (
 
 		<div>
@@ -155,6 +186,7 @@ function PokeList(props){
 			{status == 200 ?
 				<div>
 					{/*pageButtons*/}
+					{searchOptions}
 					<div className="list-container">
 						{displayList}
 					</div>
@@ -163,7 +195,7 @@ function PokeList(props){
 			: null}
 
 			{status != 0 && status != 200?
-				<div>Could not connect to the API. {error}</div>
+				<div>Could not connect to the API. Your internet or their servers might be down.<br/>{error}</div>
 			: null}
 			
 			

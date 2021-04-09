@@ -174,7 +174,7 @@ function PokeDetail (props){
 		return (
 			<div> {/* main div */}
 
-				<div className="detail-header">
+				<div className="detail-header poke-img-container">
 					<img src={picture} alt={"picture of " + name} className="v-align-mid" onLoad={() => {setImgLoaded(true)}}></img>
 					{imgLoaded ? null : <img src={imgLoading} className="v-align-mid" alt={"loading picture of" + name}></img>}
 					<div className="inline-block v-align-mid">
