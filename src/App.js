@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import {Switch, Route, useParams, Link} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import Axios from 'axios';
 
 import Navbar from "./components/navbar"
@@ -32,12 +32,6 @@ function App() {
 		}
 	}
 
-	/*useEffect(()=>{
-		localStorage.setItem('caughtList', caught)
-		console.log("STORED")
-		console.log(JSON.stringify(caught))
-	}, [caught])
-	*/
 
 	// store the caught array in local storage
 	function storeLocalStorage() {
@@ -101,7 +95,6 @@ function App() {
 	function removePoke(id, name){
 		console.log("Pokemon " + id + " with the nickname " + name + " has been released")
 		var list = caught
-		//list[id].splice(list[id].indexOf(name), 1)
 		list[id] = caught[id].filter((toBeDeleted) => {
 			return (name != toBeDeleted)
 		})

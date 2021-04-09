@@ -5,24 +5,19 @@ import imgLoading from '../img-loading.svg'
 
 var lastNickname = "" // the nickname of the last (latest) catch
 
-/*function setLastNickname(n){
-	lastNickname = n
-}*/
-
 function PokeDetail (props){
 	let {id} = useParams()
 
 	const [numericID, setNumericID] = useState(id) // the ID of the Pokemon according to the API, used to store the list of caught Pokemon of this type
-	const [name, setName] = useState("")
-	const [types, setTypes] = useState([])
-	const [moves, setMoves] = useState([])
-	const [picture, setPicture] = useState("")
+	const [name, setName] = useState("") // name of the Pokemon
+	const [types, setTypes] = useState([]) // list of types of the Pokemon (a Pokemon can have multiple types)
+	const [moves, setMoves] = useState([]) // list of moves that the Pokemon can learn
+	const [picture, setPicture] = useState("") // the URL to the picture of the Pokemon
 	const [caught, setCaught] = useState(props.caughtList[numericID]) // (WE ACTUALLY DON'T CARE ABOUT THIS) list of nicknames of the caught Pokemon of this type
 	const [lastCatch, setLastCatch] = useState(0) // results of the last catch: 0 = nothing, 1 = success, 2 = invalid name, -1 = fail
-	//const [lastNickname, setLastNickname] = useState("") // the nickname of the last Pokemon caught (temporarily stored until pushed to array)
 	const [status, setStatus] = useState(0) // the status of the HTTP request
 	const [error, setError] = useState("") // error message from Axios or the API
-	const [imgLoaded, setImgLoaded] = useState(false)
+	const [imgLoaded, setImgLoaded] = useState(false) // true if the picture of the Pokemon is loaded
 	const [mobileNav, setMobileNav] = useState(false) // false = only show moves on mobile, true = only show owned nicknames on mobile, this is not used on desktop
 
 	useEffect(()=>{ // get Pokemon details on component load
@@ -50,10 +45,6 @@ function PokeDetail (props){
 
 	// releases Pokemon with a specified nickname, called from releaseClick
 	function releasePoke(nick){
-		/*var newList = caught.filter((name) => {
-			return (name != nick)
-		})
-		setCaught(newList)*/
 		props.onPokeRelease(numericID, nick)
 		setCaught(props.caughtList[numericID])
 	}
@@ -119,18 +110,21 @@ function PokeDetail (props){
 		})
 	}
 
+	// display the types, multiple types are separated by a plus sign
 	var typesDisplay = (
 		<div>
 			{types.join(" + ")}
 		</div>
 	)
 
+	// list the moves available for the Pokemon
 	var movesDisplay = moves.map(move =>
 		<div className="capitalize">
 			{move}
 		</div>
 	);
 
+	// list all instances of this Pokemon the user has caught
 	var caughtDisplay = caught.map(nick =>
 		<div>
 			<button name={nick} onClick={releaseClick}>Release</button>
@@ -139,6 +133,7 @@ function PokeDetail (props){
 		</div>
 	);
 
+	// show catc options: catch, name input, OK, cancel, failure message
 	function CatchOptions(){
 		return(
 			<div className="inline-block v-align-mid">
@@ -234,7 +229,7 @@ function PokeDetail (props){
 			: null}
 
 			{status != 0 && status != 200 && status != 404 && status != -1?
-				<div className="loading">Could not connect to the API. Please try again later.</div>
+				<div className="loading">Could not connect to the API. Please try again later. {error}</div>
 			: null}
 			
 		</div>
